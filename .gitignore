@@ -1,0 +1,10 @@
+# Create the file and add common Next.js ignores
+cat <<EOF > .gitignore
+node_modules/
+.next/
+out/
+build/
+.env*.local
+.DS_Store
+*.bak
+EOF
