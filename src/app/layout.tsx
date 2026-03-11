@@ -1,4 +1,11 @@
 import type { Metadata } from "next";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  Show,
+  UserButton,
+} from "@clerk/nextjs";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -28,7 +35,28 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ClerkProvider>
+          <header className="fixed top-0 right-0 z-50 flex items-center gap-3 p-4">
+            <Show when="signed-out">
+              <SignInButton>
+                <button className="font-sans text-sm text-white/60 hover:text-teal transition cursor-pointer">
+                  Sign in
+                </button>
+              </SignInButton>
+              <SignUpButton>
+                <button className="font-syne font-semibold text-sm bg-teal text-black rounded-lg px-5 py-2 transition hover:opacity-90 cursor-pointer">
+                  Sign up
+                </button>
+              </SignUpButton>
+            </Show>
+            <Show when="signed-in">
+              <UserButton />
+            </Show>
+          </header>
+          {children}
+        </ClerkProvider>
+      </body>
     </html>
   );
 }
