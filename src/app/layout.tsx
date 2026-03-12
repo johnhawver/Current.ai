@@ -1,12 +1,30 @@
 import type { Metadata } from "next";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  Show,
-  UserButton,
-} from "@clerk/nextjs";
+import { DM_Sans, DM_Mono, Syne } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import Navbar from "@/components/Navbar";
+import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
+
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-dm-mono",
+  display: "swap",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  variable: "--font-syne",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Current — Geo-Triggered Marketing for Independent Retail",
@@ -28,33 +46,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Syne:wght@700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${dmSans.variable} ${dmMono.variable} ${syne.variable}`}>
       <body>
         <ClerkProvider>
-          <header className="fixed top-0 right-0 z-50 flex items-center gap-3 p-4">
-            <Show when="signed-out">
-              <SignInButton>
-                <button className="font-sans text-sm text-white/60 hover:text-teal transition cursor-pointer">
-                  Sign in
-                </button>
-              </SignInButton>
-              <SignUpButton>
-                <button className="font-syne font-semibold text-sm bg-teal text-black rounded-lg px-5 py-2 transition hover:opacity-90 cursor-pointer">
-                  Sign up
-                </button>
-              </SignUpButton>
-            </Show>
-            <Show when="signed-in">
-              <UserButton />
-            </Show>
-          </header>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-teal focus:text-black focus:px-4 focus:py-2 focus:rounded-lg focus:font-syne focus:font-semibold focus:text-sm"
+          >
+            Skip to content
+          </a>
+          <Navbar />
           {children}
+          <ScrollToTop />
         </ClerkProvider>
       </body>
     </html>
