@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Suspense } from "react";
-import "../globals.css";
 
 function SignupForm() {
   const router = useRouter();
@@ -73,15 +72,7 @@ function SignupForm() {
         />
       </div>
 
-      <p
-        style={{
-          fontFamily: "'DM Mono', monospace",
-          fontSize: "11px",
-          color: "var(--text-dim)",
-          letterSpacing: "0.08em",
-          marginBottom: "20px",
-        }}
-      >
+      <p className="font-mono text-[11px] text-dim tracking-[0.08em] mb-5">
         PLAN: {plan.toUpperCase()}
       </p>
 

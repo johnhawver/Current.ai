@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import "../globals.css";
+
+export const metadata: Metadata = {
+  title: "Terms of Service — Current.ai",
+  description: "Current.ai — Signal-driven retail intelligence for local stores.",
+};
 
 export default function TermsPage() {
   return (
@@ -52,7 +57,7 @@ export default function TermsPage() {
           <h3>Contact</h3>
           <p>
             Questions? Contact us at{" "}
-            <a href="mailto:legal@current.ai" style={{ color: "var(--teal)" }}>
+            <a href="mailto:legal@current.ai" className="text-teal hover:underline">
               legal@current.ai
             </a>
             .

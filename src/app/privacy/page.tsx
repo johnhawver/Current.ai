@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import "../globals.css";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy — Current.ai",
+  description: "Current.ai — Signal-driven retail intelligence for local stores.",
+};
 
 export default function PrivacyPage() {
   return (
@@ -45,10 +50,7 @@ export default function PrivacyPage() {
           <h3>Contact</h3>
           <p>
             Questions about this policy? Reach out at{" "}
-            <a
-              href="mailto:privacy@current.ai"
-              style={{ color: "var(--teal)" }}
-            >
+            <a href="mailto:privacy@current.ai" className="text-teal hover:underline">
               privacy@current.ai
             </a>
             .

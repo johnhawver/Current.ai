@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import "../globals.css";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
