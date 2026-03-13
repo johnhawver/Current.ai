@@ -48,6 +48,11 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes gradient-flow {
+  0%   { background-position: 100% 50%; }
+  100% { background-position: -200% 50%; }
+}
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -83,10 +88,22 @@ body {
 
 /* ═══ Sub-page styles (signup, dashboard, waitlist, privacy, terms, contact) ═══ */
 .text-gradient-brand {
-  background: linear-gradient(to right, var(--color-teal), var(--color-accent));
+  background: linear-gradient(
+    90deg,
+    #38BDF8 0%,
+    #4FD1C5 16%,
+    #38BDF8 32%,
+    #67E8F9 48%,
+    #4FD1C5 64%,
+    #38BDF8 80%,
+    #4FD1C5 100%
+  );
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: gradient-flow 12s linear infinite;
+  filter: brightness(1.1);
 }
 
 .page-container { min-height: 100vh; display: flex; flex-direction: column; background: #000; padding-top: 64px; }
