@@ -20,21 +20,24 @@ export default function Home() {
         {/* Badge */}
         <div className="inline-flex items-center gap-2.5 border border-white/10 bg-white/5 backdrop-blur-md rounded-full px-5 py-2 mb-10 font-mono text-xs tracking-widest text-white/60">
           <span className="w-2 h-2 rounded-full bg-teal animate-pulse-dot" />
-          Signal-Driven Retail Intelligence
+          Weather-Driven Ecommerce Marketing
         </div>
 
         {/* Headline */}
         <h1 className="font-syne font-extrabold text-5xl sm:text-7xl md:text-8xl leading-[1.05] tracking-tight text-white/95">
-          Local Signals.<br />
-          Automated Sales.<br />
-          <span className="text-gradient-brand">Current AI.</span>
+          Turn Weather<br />
+          Into Revenue.<br />
+          <span className="relative inline-block">
+            <span className="absolute inset-0 blur-2xl opacity-20 bg-gradient-to-r from-teal to-[#B6FF3B] rounded-full scale-110 pointer-events-none" aria-hidden="true" />
+            <span className="text-gradient-brand relative">Current AI.</span>
+          </span>
         </h1>
 
         {/* Subhead */}
         <p className="mt-8 max-w-xl text-base sm:text-lg leading-relaxed text-white/50 font-light">
-          Current monitors your city&apos;s real-time signals — weather, game days,
-          campus events — and turns them into revenue-driving campaigns for your
-          store. Automatically.
+          Current monitors weather patterns across your customers&apos; regions
+          and automatically generates high-converting email and SMS campaigns
+          for your Shopify store. Cold front? Promote hoodies. Heat wave? Push summer gear.
         </p>
 
         {/* CTA row */}
@@ -43,7 +46,7 @@ export default function Home() {
             href="/signup"
             className="font-syne font-semibold text-sm tracking-wide bg-teal text-black rounded-lg px-8 py-3.5 no-underline transition hover:opacity-90 hover:-translate-y-px"
           >
-            Start Free Trial
+            Connect Your Store
           </Link>
           <a
             href="#features"
@@ -56,8 +59,8 @@ export default function Home() {
         {/* Social proof stats */}
         <div className="mt-16 flex items-center justify-center gap-8 sm:gap-16">
           {[
-            { value: "500+", label: "Retailers" },
-            { value: "12K", label: "Campaigns Sent" },
+            { value: "500+", label: "Shopify Brands" },
+            { value: "12K", label: "Campaigns Generated" },
             { value: "34%", label: "Avg Revenue Lift" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
@@ -75,7 +78,7 @@ export default function Home() {
             How it Works
           </p>
           <h2 className="font-syne font-bold text-3xl sm:text-5xl text-white/95 tracking-tight leading-tight mb-20">
-            Three steps to automated revenue.
+            From weather forecast to ecommerce campaign in minutes.
           </h2>
 
           {/* Bento Grid — 3 cols, alternating large / small */}
@@ -84,20 +87,20 @@ export default function Home() {
             {/* Card 1 — The Signal (large: spans 2 cols) */}
             <div className="group md:col-span-2 rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-8 transition-all duration-300 hover:border-teal/50 hover:shadow-[0_0_40px_rgba(79,209,197,0.08)]">
               <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-teal mb-3 block">
-                01 — The Signal
+                01 — Connect
               </span>
               <h3 className="font-syne font-bold text-xl text-white/95 tracking-tight mb-4">
-                Connect to Local Signals
+                Connect Your Shopify Store
               </h3>
               <p className="text-sm text-white/40 font-light leading-relaxed mb-8">
-                Current plugs into real-time data streams across your city — weather forecasts, sporting events, campus foot traffic, and more — so you never miss a revenue moment.
+                Link your product catalog and customer regions. Current starts tracking weather patterns, seasonal shifts, and real-world signals wherever your customers live — so you never miss a revenue moment.
               </p>
 
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { icon: "🌤", label: "Weather", desc: "Forecasts, storms, heat waves" },
-                  { icon: "📅", label: "Events", desc: "Game days, concerts, festivals" },
-                  { icon: "📍", label: "Foot Traffic", desc: "Density hotspots in real time" },
+                  { icon: "🌤", label: "Weather", desc: "Cold fronts, rain, heat waves" },
+                  { icon: "❄️", label: "Seasonal Shifts", desc: "Temperature drops & spikes" },
+                  { icon: "📍", label: "Regional Data", desc: "Forecasts by customer zip code" },
                 ].map((s) => (
                   <div
                     key={s.label}
@@ -114,28 +117,28 @@ export default function Home() {
             {/* Card 2 — The AI (small: 1 col, row-span-2 for height) */}
             <div className="group md:row-span-2 rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-8 flex flex-col transition-all duration-300 hover:border-teal/50 hover:shadow-[0_0_40px_rgba(79,209,197,0.08)]">
               <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-teal mb-3">
-                02 — The AI
+                02 — Generate
               </span>
               <h3 className="font-syne font-bold text-xl text-white/95 tracking-tight mb-4">
-                Autonomous Campaigns
+                AI Generates Campaigns
               </h3>
               <p className="text-sm text-white/40 font-light leading-relaxed mb-6">
-                Claude 4.6 analyzes every signal against your inventory, brand voice, and local context to find <span className="text-teal font-medium">Revenue Gaps</span> — untapped moments where a perfectly-timed campaign will convert.
+                When weather shifts, Current&apos;s AI matches the forecast to your product catalog and generates targeted email and SMS campaigns — complete with copy, subject lines, and <span className="text-teal font-medium">product recommendations</span>.
               </p>
 
               <div className="rounded-lg border border-zinc-800 bg-black/40 p-5 font-mono text-xs leading-relaxed mb-6">
-                <p className="text-white/30 mb-2">// Revenue gap detected</p>
-                <p className="text-teal">claude<span className="text-white/20">.</span>analyze<span className="text-white/40">(</span></p>
-                <p className="text-white/30 ml-3">signals<span className="text-white/20">,</span></p>
-                <p className="text-white/30 ml-3">store<span className="text-white/20">.</span>context</p>
+                <p className="text-white/30 mb-2">// Weather trigger detected</p>
+                <p className="text-teal">current<span className="text-white/20">.</span>generate<span className="text-white/40">(</span></p>
+                <p className="text-white/30 ml-3">forecast<span className="text-white/20">,</span></p>
+                <p className="text-white/30 ml-3">catalog<span className="text-white/20">.</span>products</p>
                 <p className="text-white/40">)</p>
-                <p className="text-white/20 mt-2">→ gap: <span className="text-teal">&quot;pre-game coffee rush&quot;</span></p>
-                <p className="text-white/20">→ action: <span className="text-teal">draft_campaign</span></p>
+                <p className="text-white/20 mt-2">→ trigger: <span className="text-teal">&quot;cold front hitting Midwest&quot;</span></p>
+                <p className="text-white/20">→ action: <span className="text-teal">promote_hoodies_15_off</span></p>
                 <p className="text-white/20">→ confidence: <span className="text-teal">0.96</span></p>
               </div>
 
               <div className="mt-auto flex flex-col gap-2">
-                {["Signal Ingestion", "Context Matching", "Campaign Drafting", "Auto-Scheduling"].map((step, i) => (
+                {["Weather Detection", "Product Matching", "Campaign Copywriting", "Send via Email & SMS"].map((step, i) => (
                   <div key={step} className="flex items-center gap-3 text-sm">
                     <span className="w-6 h-6 rounded-full border border-teal/30 bg-teal/10 flex items-center justify-center font-mono text-[10px] text-teal shrink-0">
                       {i + 1}
@@ -149,17 +152,17 @@ export default function Home() {
             {/* Card 3 — The Result (large: spans 2 cols) */}
             <div className="group md:col-span-2 rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-8 transition-all duration-300 hover:border-teal/50 hover:shadow-[0_0_40px_rgba(79,209,197,0.08)]">
               <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-teal mb-3 block">
-                03 — The Result
+                03 — Revenue
               </span>
               <h3 className="font-syne font-bold text-xl text-white/95 tracking-tight mb-4">
-                Automatic Sales
+                Watch Revenue Climb
               </h3>
               <p className="text-sm text-white/40 font-light leading-relaxed mb-6">
-                Signal-driven campaigns consistently outperform gut-feel marketing. Revenue climbs when every local moment is captured automatically.
+                Weather-triggered campaigns consistently outperform scheduled promotions. Brands using Current see revenue climb as every weather shift becomes an automated sales opportunity.
               </p>
 
               {/* Mock upward sales trend */}
-              <div className="flex items-end gap-1.5 h-36">
+              <div className="flex items-end gap-1.5" style={{ height: 144 }}>
                 {[
                   { week: "W1", val: 18 },
                   { week: "W2", val: 25 },
@@ -172,12 +175,12 @@ export default function Home() {
                   { week: "W9", val: 88 },
                   { week: "W10", val: 100 },
                 ].map((d) => (
-                  <div key={d.week} className="flex-1 flex flex-col items-center gap-1.5">
+                  <div key={d.week} className="flex-1 flex flex-col items-end justify-end gap-1.5">
                     <div
                       className="w-full rounded-t-md bg-teal/60 transition-all duration-300 group-hover:bg-teal"
-                      style={{ height: `${d.val}%` }}
+                      style={{ height: `${Math.round((d.val / 100) * 128)}px` }}
                     />
-                    <span className="text-[9px] font-mono text-white/25 group-hover:text-white/40 transition-colors">{d.week}</span>
+                    <span className="text-[9px] font-mono text-white/25 group-hover:text-white/40 transition-colors w-full text-center">{d.week}</span>
                   </div>
                 ))}
               </div>
@@ -196,15 +199,15 @@ export default function Home() {
           {/* ── Logo Cloud ── */}
           <div ref={logoCloudRef} className="mt-20 text-center">
             <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-white/20 mb-8">
-              Built for Modern Retailers in Ann Arbor
+              Trusted by Shopify Brands Everywhere
             </p>
             <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-5">
               {[
-                { icon: "👗", name: "Boutiques" },
-                { icon: "☕", name: "Cafes" },
-                { icon: "💻", name: "Tech Shops" },
-                { icon: "🏋️", name: "Studios" },
-                { icon: "📚", name: "Bookstores" },
+                { icon: "👕", name: "Apparel" },
+                { icon: "🏕", name: "Outdoor Gear" },
+                { icon: "👟", name: "Footwear" },
+                { icon: "🧴", name: "Beauty & Skincare" },
+                { icon: "🏠", name: "Home & Living" },
               ].map((store) => (
                 <div key={store.name} className="flex items-center gap-2.5 grayscale opacity-30 hover:grayscale-0 hover:opacity-70 transition-all duration-300">
                   <span className="text-2xl">{store.icon}</span>
@@ -221,10 +224,10 @@ export default function Home() {
               Experience the Intelligence
             </p>
             <h3 className="font-syne font-bold text-2xl sm:text-3xl text-white/95 tracking-tight leading-tight mb-4">
-              Watch Current think in real time.
+              See weather become revenue in real time.
             </h3>
             <p className="text-sm text-white/35 font-light max-w-xl mb-10">
-              A live look inside the dashboard. Signals stream in on the left; Current&apos;s AI responds with revenue-ready actions on the right.
+              A live look inside the dashboard. Weather signals stream in on the left; Current&apos;s AI generates ecommerce campaigns on the right.
             </p>
 
             {/* Dashboard mockup chrome */}
@@ -249,17 +252,17 @@ export default function Home() {
                         Live Signals
                       </span>
                     </div>
-                    <span className="font-mono text-[10px] text-white/15">Ann Arbor, MI</span>
+                    <span className="font-mono text-[10px] text-white/15">All Regions</span>
                   </div>
 
                   <div className="flex flex-col gap-2">
                     {[
-                      { time: "2:41 PM", text: "Rain starting in 20 mins", icon: "🌧", severity: "high", delay: "0s" },
-                      { time: "2:38 PM", text: "Foot traffic spiking on S. University", icon: "📍", severity: "medium", delay: "0.08s" },
-                      { time: "2:30 PM", text: "Temperature dropping to 42 °F", icon: "🌡", severity: "low", delay: "0.16s" },
-                      { time: "2:22 PM", text: "U-M library closing early today", icon: "🎓", severity: "medium", delay: "0.24s" },
-                      { time: "2:15 PM", text: "Competitor on Main St running flash sale", icon: "⚡", severity: "high", delay: "0.32s" },
-                      { time: "2:01 PM", text: "Lunch rush ending — traffic normalizing", icon: "📉", severity: "low", delay: "0.40s" },
+                      { time: "2:41 PM", text: "Cold front hitting the Midwest tomorrow", icon: "❄️", severity: "high", delay: "0s" },
+                      { time: "2:38 PM", text: "Rain forecast in Seattle for 3 days", icon: "🌧", severity: "high", delay: "0.08s" },
+                      { time: "2:30 PM", text: "Heat wave warning — Texas, 105 °F", icon: "🌡", severity: "high", delay: "0.16s" },
+                      { time: "2:22 PM", text: "Snow advisory across Northeast", icon: "🌨", severity: "medium", delay: "0.24s" },
+                      { time: "2:15 PM", text: "Sunny weekend ahead in Southern California", icon: "☀️", severity: "medium", delay: "0.32s" },
+                      { time: "2:01 PM", text: "Humidity spike in Florida — 92%", icon: "💧", severity: "low", delay: "0.40s" },
                     ].map((item) => (
                       <div
                         key={item.time + item.text}
@@ -296,8 +299,8 @@ export default function Home() {
                   <div className="rounded-lg border border-zinc-800 bg-black/30 p-4 mb-4 animate-slide-up" style={{ animationDelay: "0.2s" }}>
                     <p className="font-mono text-[10px] text-white/20 uppercase tracking-widest mb-2">Trigger</p>
                     <div className="flex items-center gap-2">
-                      <span className="text-lg">🌧</span>
-                      <p className="text-sm text-white/60">Rain starting in 20 mins + high foot traffic nearby</p>
+                      <span className="text-lg">❄️</span>
+                      <p className="text-sm text-white/60">Cold front hitting the Midwest tomorrow — 12,400 customers in region</p>
                     </div>
                   </div>
 
@@ -307,14 +310,14 @@ export default function Home() {
                       AI-Generated Campaign
                     </span>
                     <p className="font-syne font-bold text-lg text-white/90 tracking-tight mb-2">
-                      Rainy Day Rescue
+                      Cold Front Hoodie Drop
                     </p>
                     <p className="text-sm text-white/45 font-light leading-relaxed mb-5">
-                      Sending <span className="text-teal font-medium">15% discount code for umbrellas</span> to 340 nearby customers. SMS goes out in 3 minutes — timed to hit right as the first drops fall.
+                      Sending <span className="text-teal font-medium">15% off hoodies and outerwear</span> to 12,400 customers in the Midwest. Email and SMS go out tonight — timed to arrive before the temperature drops.
                     </p>
 
                     <div className="flex flex-wrap gap-2 mb-5">
-                      {["SMS", "Push Notification", "Email"].map((ch) => (
+                      {["Email", "SMS", "Klaviyo"].map((ch) => (
                         <span key={ch} className="font-mono text-[10px] tracking-wider text-white/35 border border-zinc-800 rounded-full px-3 py-1 bg-black/30">
                           {ch}
                         </span>
@@ -324,8 +327,8 @@ export default function Home() {
                     <div className="mt-auto grid grid-cols-3 gap-3">
                       {[
                         { label: "Confidence", value: "94%" },
-                        { label: "Audience", value: "340" },
-                        { label: "Est. Revenue", value: "+$820" },
+                        { label: "Audience", value: "12.4K" },
+                        { label: "Est. Revenue", value: "+$18,600" },
                       ].map((stat) => (
                         <div key={stat.label} className="text-center">
                           <p className="font-mono text-[9px] text-white/20 uppercase tracking-widest mb-1">{stat.label}</p>
@@ -338,12 +341,12 @@ export default function Home() {
                   {/* Mock action button */}
                   <div className="mt-4 rounded-lg bg-teal/10 border border-teal/20 py-3 text-center cursor-default select-none">
                     <span className="font-syne font-semibold text-sm text-teal tracking-wide">
-                      Deploy Campaign
+                      Send via Klaviyo
                     </span>
                   </div>
 
                   <p className="text-[11px] text-white/15 font-mono mt-3 text-center">
-                    Non-functional preview — campaigns deploy from your dashboard.
+                    Non-functional preview — campaigns send from your dashboard.
                   </p>
                 </div>
 
@@ -358,22 +361,22 @@ export default function Home() {
       <section ref={signalsRef} className="relative py-32 px-6 border-t border-white/[0.06]">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="font-syne font-bold text-3xl sm:text-5xl text-white/95 tracking-tight leading-tight mb-4">
-            The city is talking. Current listens.
+            The weather is changing. Current is ready.
           </h2>
           <p className="text-white/40 font-light mb-16">
-            8 signal categories. Infinite local moments.
+            8 weather signal categories. Endless ecommerce opportunities.
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { icon: "🌤", name: "Weather" },
-              { icon: "🏈", name: "Game Days" },
-              { icon: "🎓", name: "Campus Cycles" },
-              { icon: "📅", name: "Local Events" },
-              { icon: "❄️", name: "Seasonal Shifts" },
-              { icon: "🌧", name: "Rain Events" },
-              { icon: "📦", name: "Move-in Week" },
-              { icon: "🎉", name: "Holidays" },
+              { icon: "❄️", name: "Cold Fronts" },
+              { icon: "🌧", name: "Rain Forecasts" },
+              { icon: "☀️", name: "Heat Waves" },
+              { icon: "🌨", name: "Snowstorms" },
+              { icon: "🍂", name: "Seasonal Shifts" },
+              { icon: "💧", name: "Humidity Spikes" },
+              { icon: "🌬", name: "Wind & Storms" },
+              { icon: "🌡", name: "Temperature Drops" },
             ].map((s) => (
               <div
                 key={s.name}
@@ -393,16 +396,16 @@ export default function Home() {
       <section className="relative py-32 px-6 border-t border-white/[0.06]">
         <div className="max-w-5xl mx-auto text-center">
           <p className="font-mono text-xs tracking-[0.2em] uppercase text-teal mb-4">
-            Trusted by Retailers
+            Trusted by Ecommerce Brands
           </p>
           <h2 className="font-syne font-bold text-3xl sm:text-4xl text-white/95 tracking-tight leading-tight mb-16">
-            What store owners are saying
+            What Shopify brands are saying
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { quote: "Current caught a rain event I would have completely missed. The auto-generated SMS drove 40 umbrella sales in two hours.", name: "Sarah K.", store: "Main Street Outfitters" },
-              { quote: "Game day campaigns used to take me all week to plan. Now Current drafts them before I finish my morning coffee.", name: "Marcus T.", store: "Blue Front Coffee" },
-              { quote: "We saw a 28% revenue increase in our first month. The signal-to-campaign pipeline is genuinely magical.", name: "Priya R.", store: "The Lit Bookshop" },
+              { quote: "A cold front hit and Current had a hoodie campaign in our Klaviyo account before we even checked the forecast. 200 orders in 6 hours.", name: "Sarah K.", store: "Northbound Apparel" },
+              { quote: "We used to guess when to run promotions. Now the weather tells us. Our email revenue is up 40% since switching to Current.", name: "Marcus T.", store: "TrailEdge Outdoor Co." },
+              { quote: "Rain forecast in Seattle on a Tuesday? Current sent a rain jacket promo via SMS and we did $8K before noon.", name: "Priya R.", store: "PNW Essentials" },
             ].map((t) => (
               <div
                 key={t.name}
@@ -432,14 +435,14 @@ export default function Home() {
             {/* Starter */}
             <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-8 text-left transition-all duration-300 hover:border-white/10 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(255,255,255,0.03)]">
               <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-white/30 border border-white/10 px-2.5 py-1 inline-block mb-5">
-                For Solo Retailers
+                For Growing Brands
               </span>
               <div className="font-syne font-bold text-xl text-white/90 mb-1">Starter</div>
               <div className="font-syne font-extrabold text-4xl text-teal mb-6">
                 $49<span className="font-sans font-light text-sm text-white/40">/mo</span>
               </div>
               <ul className="space-y-3 mb-8 text-sm text-white/50">
-                {["1 store location", "3 active signal sources", "AI caption & email generation", "Weekly campaign recommendations", "Instagram & SMS ready copy"].map((f) => (
+                {["1 Shopify store", "3 weather signal regions", "AI email & SMS campaign generation", "Weekly weather-triggered campaigns", "Klaviyo integration"].map((f) => (
                   <li key={f} className="flex items-center gap-2">
                     <span className="text-teal text-xs">✓</span> {f}
                   </li>
@@ -460,7 +463,7 @@ export default function Home() {
                 $99<span className="font-sans font-light text-sm text-white/40">/mo</span>
               </div>
               <ul className="space-y-3 mb-8 text-sm text-white/50">
-                {["Everything in Starter", "Unlimited signal sources", "AI video & Reel scripts", "POS integration (Shopify, Square)", "Advanced trigger customization", "Performance analytics", "Priority support"].map((f) => (
+                {["Everything in Starter", "Unlimited weather regions", "Multi-product campaign bundling", "Advanced weather trigger rules", "Revenue attribution analytics", "A/B test weather campaigns", "Priority support"].map((f) => (
                   <li key={f} className="flex items-center gap-2">
                     <span className="text-teal text-xs">✓</span> {f}
                   </li>
@@ -489,10 +492,10 @@ export default function Home() {
           </h2>
           <div className="flex flex-col gap-4">
             {[
-              { q: "How does Current detect local signals?", a: "Current integrates with public weather APIs, event databases, foot traffic data providers, and POS systems to monitor your city in real time. Signals are evaluated every 60 seconds." },
-              { q: "Do I need to write my own campaigns?", a: "No. Claude 4.6 generates complete campaign copy — Instagram captions, SMS messages, emails, and in-store signage — tailored to your brand voice and the specific signal that triggered it." },
-              { q: "Can I customize which signals trigger campaigns?", a: "Yes. The Growth plan includes advanced trigger customization. You can set thresholds for weather, traffic, events, and more, or create entirely custom signal rules." },
-              { q: "What POS systems do you integrate with?", a: "We currently support Shopify, Square, and Toast. More integrations are on our roadmap. Contact us if you need a specific POS supported." },
+              { q: "How does Current detect weather signals?", a: "Current integrates with weather APIs and forecast providers to monitor conditions across all of your customer regions. Signals like cold fronts, rain forecasts, heat waves, and snow advisories are evaluated continuously." },
+              { q: "Do I need to write my own campaigns?", a: "No. Current\u2019s AI generates complete email and SMS campaigns — subject lines, body copy, and product recommendations — tailored to the weather event and your Shopify product catalog." },
+              { q: "Can I customize which weather triggers campaigns?", a: "Yes. The Growth plan includes advanced trigger rules. Set thresholds for temperature drops, rain probability, snow forecasts, and more — or create custom weather rules for your brand." },
+              { q: "What platforms does Current integrate with?", a: "Current connects directly to Shopify for your product catalog and Klaviyo for email and SMS delivery. More integrations are on our roadmap." },
               { q: "Is there a contract or commitment?", a: "No. Both plans are month-to-month with a 14-day free trial. Cancel anytime with no penalty." },
             ].map((item) => (
               <details
@@ -516,18 +519,18 @@ export default function Home() {
       <section ref={ctaRef} className="relative py-24 px-6 border-t border-white/[0.06]">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-syne font-bold text-3xl sm:text-4xl text-white/95 tracking-tight leading-tight mb-6">
-            Ready to automate your revenue?
+            Turn your next forecast into revenue.
           </h2>
           <p className="text-white/40 font-light mb-10 max-w-lg mx-auto">
-            Join hundreds of local retailers using Current to turn real-time signals
-            into sales. Start free — no credit card required.
+            Join hundreds of Shopify brands using Current to turn weather into
+            high-converting email and SMS campaigns. Start free — no credit card required.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/signup"
               className="font-syne font-semibold text-sm bg-teal text-black rounded-lg px-8 py-3.5 no-underline transition hover:opacity-90 hover:-translate-y-px"
             >
-              Start Free Trial
+              Connect Your Store
             </Link>
             <Link
               href="/contact"
@@ -546,7 +549,7 @@ export default function Home() {
             <div className="col-span-2 sm:col-span-1">
               <span className="font-syne font-bold text-sm tracking-[0.15em] text-teal block mb-4">CURRENT</span>
               <p className="text-xs text-white/30 leading-relaxed">
-                Signal-driven marketing automation for independent retail.
+                Weather-driven marketing automation for ecommerce brands.
               </p>
             </div>
             <div>
