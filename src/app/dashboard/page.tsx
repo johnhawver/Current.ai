@@ -3,14 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createStore } from "./actions";
-import { generateBranding, type BrandingResult } from "../actions/ai-actions";
+import { generateBranding } from "../actions/ai-actions";
+import type { BrandingResult as BrandingResultType } from "@/types";
+import BrandingResult from "@/components/BrandingResult";
 
 export default function DashboardPage() {
   const [storeStatus, setStoreStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [storeAdded, setStoreAdded] = useState(false);
   const [aiStatus, setAiStatus] = useState<"idle" | "generating" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [storeName, setStoreName] = useState("");
-  const [branding, setBranding] = useState<BrandingResult | null>(null);
+  const [branding, setBranding] = useState<BrandingResultType | null>(null);
 
   async function handleSaveStore(formData: FormData) {
     const name = formData.get("storeName") as string;
@@ -26,6 +29,7 @@ export default function DashboardPage() {
     }
 
     setStoreStatus("saved");
+    setStoreAdded(true);
   }
 
   async function handleGenerateBranding() {
@@ -45,6 +49,7 @@ export default function DashboardPage() {
 
   function handleReset() {
     setStoreStatus("idle");
+    setStoreAdded(false);
     setAiStatus("idle");
     setBranding(null);
     setStoreName("");
@@ -114,6 +119,20 @@ export default function DashboardPage() {
           </div>
         )}
 
+        {/* ── Store Added success ── */}
+        {storeAdded && aiStatus !== "done" && (
+          <div className="flex items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/[0.06] backdrop-blur-md px-6 py-4 mb-6">
+            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-green-500/20 shrink-0">
+              <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+            <p className="font-syne font-semibold text-sm text-green-400 tracking-tight">
+              Store Added!
+            </p>
+          </div>
+        )}
+
         {/* ── AI Branding section (visible after store is saved) ── */}
         {storeStatus === "saved" && aiStatus !== "done" && (
           <div className="rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-8">
@@ -151,55 +170,11 @@ export default function DashboardPage() {
 
         {/* ── Branding result card ── */}
         {aiStatus === "done" && branding && (
-          <div className="rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-8">
-            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#4FD1C5] mb-1">
-              AI-Generated Brand Kit
-            </p>
-            <h2 className="font-syne font-bold text-2xl text-[#F0EEE9] tracking-tight mb-8">
-              {storeName}
-            </h2>
-
-            {/* Tagline */}
-            <p className="text-white/40 text-xs font-mono uppercase tracking-widest mb-2">
-              Tagline
-            </p>
-            <p className="text-xl text-white/90 font-light leading-relaxed mb-8 italic">
-              &ldquo;{branding.tagline}&rdquo;
-            </p>
-
-            {/* Growth tip */}
-            <p className="text-white/40 text-xs font-mono uppercase tracking-widest mb-2">
-              Growth Tip
-            </p>
-            <p className="text-sm text-white/70 font-light leading-relaxed mb-8">
-              {branding.strategy}
-            </p>
-
-            {/* Color palette */}
-            <p className="text-white/40 text-xs font-mono uppercase tracking-widest mb-4">
-              Brand Palette
-            </p>
-            <div className="flex items-center gap-4">
-              {branding.colors.map((hex) => (
-                <div key={hex} className="flex items-center gap-2">
-                  <span
-                    className="w-6 h-6 rounded-full border border-white/10 shadow-lg shrink-0"
-                    style={{ backgroundColor: hex }}
-                  />
-                  <span className="font-mono text-xs text-white/40">
-                    {hex}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <button
-              onClick={handleReset}
-              className="mt-10 text-sm text-white/40 hover:text-[#4FD1C5] transition font-mono cursor-pointer"
-            >
-              + Register another store
-            </button>
-          </div>
+          <BrandingResult
+            storeName={storeName}
+            branding={branding}
+            onReset={handleReset}
+          />
         )}
       </main>
     </div>
