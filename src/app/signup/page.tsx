@@ -12,8 +12,7 @@ function SignupForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [storeName, setStoreName] = useState("");
-  const [city, setCity] = useState("");
+  const [shopifyUrl, setShopifyUrl] = useState("");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,7 +31,7 @@ function SignupForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@store.com"
+          placeholder="you@yourbrand.com"
         />
       </div>
 
@@ -49,36 +48,34 @@ function SignupForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="storeName">Store Name</label>
+        <label htmlFor="shopifyUrl">Shopify Store URL</label>
         <input
-          id="storeName"
+          id="shopifyUrl"
           type="text"
           required
-          value={storeName}
-          onChange={(e) => setStoreName(e.target.value)}
-          placeholder="Your Store"
+          value={shopifyUrl}
+          onChange={(e) => setShopifyUrl(e.target.value)}
+          placeholder="your-store.myshopify.com"
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="city">City</label>
-        <input
-          id="city"
-          type="text"
-          required
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="Ann Arbor, MI"
-        />
+      <div className="flex items-center justify-between mb-6">
+        <p className="font-mono text-[11px] text-dim tracking-[0.08em]">
+          PLAN: {plan.toUpperCase()}
+        </p>
+        <p className="font-mono text-[11px] text-white/30 tracking-[0.08em]">
+          14-day free trial
+        </p>
       </div>
-
-      <p className="font-mono text-[11px] text-dim tracking-[0.08em] mb-5">
-        PLAN: {plan.toUpperCase()}
-      </p>
 
       <button type="submit" className="form-submit">
-        Create Account
+        Connect Store & Start Free Trial
       </button>
+
+      <p className="text-center text-white/25 text-xs mt-5 font-light leading-relaxed">
+        We&apos;ll connect to your Shopify catalog and start monitoring weather
+        across your customer regions. No credit card required.
+      </p>
     </form>
   );
 }
@@ -95,7 +92,11 @@ export default function SignupPage() {
         </Link>
       </div>
       <main className="page-main">
-        <h1 className="page-title">Start your free trial</h1>
+        <h1 className="page-title">Connect your Shopify store</h1>
+        <p className="text-white/40 text-sm font-light leading-relaxed -mt-4 mb-8">
+          Current will sync your product catalog and start generating
+          weather-triggered email and SMS campaigns automatically.
+        </p>
         <Suspense fallback={<div>Loading...</div>}>
           <SignupForm />
         </Suspense>
