@@ -35,7 +35,7 @@ export default function WaitlistPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@store.com"
+                placeholder="you@yourbrand.com"
               />
             </div>
             <button type="submit" className="form-submit">
@@ -43,9 +43,17 @@ export default function WaitlistPage() {
             </button>
           </form>
         ) : (
-          <p className="success-message">
-            You&apos;re on the list. We&apos;ll reach out shortly.
-          </p>
+          <div className="text-center py-8">
+            <p className="success-message mb-6">
+              You&apos;re on the list. We&apos;ll reach out shortly.
+            </p>
+            <Link
+              href="/"
+              className="font-syne font-semibold text-sm text-teal no-underline hover:underline"
+            >
+              ← Back to home
+            </Link>
+          </div>
         )}
       </main>
     </div>

@@ -1,150 +1,252 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { createStore } from "./actions";
 import { generateBranding } from "../actions/ai-actions";
 import type { BrandingResult as BrandingResultType } from "@/types";
 import BrandingResult from "@/components/BrandingResult";
+import { useStore } from "@/hooks/useStore";
+
+interface StoreData {
+  email: string;
+  shopifyUrl: string;
+  storeName: string;
+}
+
+interface PlanData {
+  sms: string;
+  email: string;
+  strategy: string;
+  weather?: { temp: number; condition: string; description: string };
+  source?: string;
+}
 
 export default function DashboardPage() {
-  const [storeStatus, setStoreStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
-  const [storeAdded, setStoreAdded] = useState(false);
+  const router = useRouter();
+  const { store: dbStore, loading: storeLoading } = useStore();
+  const [storeData, setStoreData] = useState<StoreData | null>(null);
+  const [ready, setReady] = useState(false);
+  const [plan, setPlan] = useState<PlanData | null>(null);
+  const [planStatus, setPlanStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [aiStatus, setAiStatus] = useState<"idle" | "generating" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [storeName, setStoreName] = useState("");
   const [branding, setBranding] = useState<BrandingResultType | null>(null);
 
-  async function handleSaveStore(formData: FormData) {
-    const name = formData.get("storeName") as string;
-    setStoreName(name);
-    setStoreStatus("saving");
-    setErrorMsg("");
+  useEffect(() => {
+    if (storeLoading) return;
 
-    const result = await createStore(formData);
-    if (result.error) {
-      setErrorMsg(result.error);
-      setStoreStatus("error");
+    if (dbStore) {
+      const data: StoreData = {
+        email: dbStore.email ?? "",
+        shopifyUrl: dbStore.shopify_url ?? "",
+        storeName: dbStore.store_name,
+      };
+      setStoreData(data);
+      setStoreName(data.storeName);
+      setReady(true);
       return;
     }
 
-    setStoreStatus("saved");
-    setStoreAdded(true);
+    const raw = localStorage.getItem("store");
+    if (!raw) {
+      router.replace("/");
+      return;
+    }
+    try {
+      const parsed: StoreData = JSON.parse(raw);
+      setStoreData(parsed);
+      setStoreName(parsed.storeName);
+    } catch {
+      router.replace("/");
+      return;
+    }
+    setReady(true);
+
+    const savedPlan = localStorage.getItem("plan");
+    if (savedPlan) {
+      try {
+        setPlan(JSON.parse(savedPlan));
+        setPlanStatus("done");
+      } catch { /* ignore */ }
+    }
+  }, [storeLoading, dbStore, router]);
+
+  async function handleGenerateNewPlan() {
+    setPlanStatus("loading");
+
+    const analysisRaw = localStorage.getItem("analysis");
+    let categories = ["General"];
+    let priceRange = "mid-range";
+    if (analysisRaw) {
+      try {
+        const a = JSON.parse(analysisRaw);
+        if (a.categories?.length) categories = a.categories;
+        if (a.priceRange) priceRange = a.priceRange;
+      } catch { /* ignore */ }
+    }
+
+    try {
+      const res = await fetch("/api/generate-plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ categories, priceRange, location: "New York" }),
+      });
+
+      if (res.ok) {
+        const data: PlanData = await res.json();
+        setPlan(data);
+        localStorage.setItem("plan", JSON.stringify(data));
+        setPlanStatus("done");
+        return;
+      }
+    } catch {
+      console.log("Plan generation failed");
+    }
+
+    setPlanStatus("error");
   }
 
   async function handleGenerateBranding() {
     setAiStatus("generating");
     setErrorMsg("");
-
     const result = await generateBranding(storeName);
     if (result.error) {
       setErrorMsg(result.error);
       setAiStatus("error");
       return;
     }
-
     setBranding(result.data!);
     setAiStatus("done");
   }
 
-  function handleReset() {
-    setStoreStatus("idle");
-    setStoreAdded(false);
+  function handleLogout() {
+    localStorage.removeItem("store");
+    router.replace("/");
+  }
+
+  function handleBrandingReset() {
     setAiStatus("idle");
     setBranding(null);
-    setStoreName("");
     setErrorMsg("");
+  }
+
+  if (!ready) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <p className="text-white/30 text-sm font-mono">Loading...</p>
+      </div>
+    );
   }
 
   return (
     <div className="min-h-screen bg-black font-sans text-white pt-16">
       <div className="page-header">
         <Link href="/" className="nav-wordmark">CURRENT</Link>
-        <Link href="/" className="hero-link">← Home</Link>
+        <button
+          onClick={handleLogout}
+          className="font-sans text-sm text-white/40 hover:text-red-400 transition cursor-pointer"
+        >
+          Log out
+        </button>
       </div>
 
       <main className="dashboard-main">
-        <h1 className="dashboard-title">Dashboard</h1>
+        {/* ── Header ── */}
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="dashboard-title mb-0">Your Store Dashboard</h1>
+        </div>
 
-        {/* ── Welcome card ── */}
-        {storeStatus === "idle" && (
-          <div className="rounded-xl border border-teal/20 bg-teal/[0.04] backdrop-blur-md p-8 mb-6">
-            <div className="flex items-start gap-4">
-              <span className="text-3xl">👋</span>
-              <div>
-                <h2 className="font-syne font-bold text-lg text-white/90 tracking-tight mb-2">
-                  Welcome to Current
-                </h2>
-                <p className="text-sm text-white/45 font-light leading-relaxed">
-                  Register your store below to get started. Once registered, you can generate
-                  an AI-powered branding strategy and start receiving signal-driven campaign recommendations.
-                </p>
-              </div>
+        {/* ── Connected store info ── */}
+        {storeData && (
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-teal">
+                Connected Store
+              </p>
+              <span className="flex items-center gap-1.5 font-mono text-[10px] text-green-400 tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                Active
+              </span>
+            </div>
+            <h2 className="font-syne font-bold text-xl text-white/90 tracking-tight mb-3">
+              {storeData.storeName}
+            </h2>
+            <div className="flex flex-col gap-1.5">
+              <p className="text-sm text-white/40 font-light">
+                <span className="font-mono text-[10px] text-white/20 uppercase tracking-widest mr-2">URL</span>
+                {storeData.shopifyUrl}
+              </p>
+              <p className="text-sm text-white/40 font-light">
+                <span className="font-mono text-[10px] text-white/20 uppercase tracking-widest mr-2">Email</span>
+                {storeData.email}
+              </p>
             </div>
           </div>
         )}
 
-        {/* ── Store form ── */}
-        {storeStatus !== "saved" && (
-          <div className="signal-card-dash">
-            <h2 className="font-syne font-bold text-lg text-[#F0EEE9] tracking-tight mb-6">
-              Register Your Store
-            </h2>
+        {/* ── AI Promotion Plan ── */}
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-teal">
+              AI Promotion Plan
+            </p>
+            {plan?.weather && (
+              <span className="font-mono text-[10px] text-white/30 tracking-wider">
+                {plan.weather.temp}°F · {plan.weather.condition}
+              </span>
+            )}
+          </div>
 
-            <form action={handleSaveStore}>
-              <div className="form-group">
-                <label htmlFor="storeName">Store Name</label>
-                <input
-                  id="storeName"
-                  name="storeName"
-                  type="text"
-                  required
-                  placeholder="e.g. Blue Front Coffee"
-                  disabled={storeStatus === "saving"}
-                />
+          {plan && planStatus === "done" ? (
+            <div className="flex flex-col gap-3 mb-5">
+              <div className="rounded-lg border border-zinc-800 bg-black/40 p-4">
+                <p className="font-mono text-[10px] text-teal uppercase tracking-widest mb-2">SMS Campaign</p>
+                <p className="text-sm text-white/70 font-light leading-relaxed">{plan.sms}</p>
               </div>
-
-              {storeStatus === "error" && (
-                <p className="text-red-400 text-sm mb-4 font-mono">{errorMsg}</p>
+              <div className="rounded-lg border border-zinc-800 bg-black/40 p-4">
+                <p className="font-mono text-[10px] text-teal uppercase tracking-widest mb-2">Email Campaign</p>
+                <p className="text-sm text-white/70 font-light leading-relaxed whitespace-pre-line">{plan.email}</p>
+              </div>
+              <div className="rounded-lg border border-zinc-800 bg-black/40 p-4">
+                <p className="font-mono text-[10px] text-teal uppercase tracking-widest mb-2">Strategy</p>
+                <p className="text-sm text-white/70 font-light leading-relaxed">{plan.strategy}</p>
+              </div>
+              {plan.source && (
+                <p className="font-mono text-[10px] text-white/15 text-right">
+                  Source: {plan.source}
+                </p>
               )}
-
-              <button
-                type="submit"
-                className="generate-btn w-full"
-                disabled={storeStatus === "saving"}
-              >
-                {storeStatus === "saving" ? "Saving…" : "Save Store"}
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* ── Store Added success ── */}
-        {storeAdded && aiStatus !== "done" && (
-          <div className="flex items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/[0.06] backdrop-blur-md px-6 py-4 mb-6">
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-green-500/20 shrink-0">
-              <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            </span>
-            <p className="font-syne font-semibold text-sm text-green-400 tracking-tight">
-              Store Added!
+            </div>
+          ) : planStatus !== "loading" ? (
+            <p className="text-sm text-white/30 font-light mb-5">
+              Generate a weather-driven campaign plan for your store.
             </p>
-          </div>
-        )}
+          ) : null}
 
-        {/* ── AI Branding section (visible after store is saved) ── */}
-        {storeStatus === "saved" && aiStatus !== "done" && (
-          <div className="rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-8">
-            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#4FD1C5] mb-1">
-              Store Registered
+          <button
+            onClick={handleGenerateNewPlan}
+            disabled={planStatus === "loading"}
+            className="font-syne font-semibold text-sm tracking-wide bg-teal text-black rounded-lg px-6 py-3 transition hover:opacity-90 hover:-translate-y-px disabled:opacity-60 disabled:cursor-wait cursor-pointer w-full"
+          >
+            {planStatus === "loading" ? (
+              <span className="flex items-center justify-center gap-3">
+                <span className="inline-block w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                Generating plan...
+              </span>
+            ) : plan ? "Generate New Plan" : "Generate AI Plan"}
+          </button>
+        </div>
+
+        {/* ── AI Branding section ── */}
+        {aiStatus !== "done" && (
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6 mb-6">
+            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-teal mb-4">
+              Brand Strategy
             </p>
-            <h2 className="font-syne font-bold text-2xl text-[#F0EEE9] tracking-tight mb-6">
-              {storeName}
-            </h2>
-
-            <p className="text-white/50 text-sm leading-relaxed mb-6">
-              Generate a full AI branding strategy — tagline, color palette, and growth tip — powered by Claude.
+            <p className="text-sm text-white/40 font-light leading-relaxed mb-5">
+              Generate an AI-powered brand kit — tagline, color palette, and growth tip — for {storeName}.
             </p>
 
             {aiStatus === "error" && (
@@ -154,11 +256,11 @@ export default function DashboardPage() {
             <button
               onClick={handleGenerateBranding}
               disabled={aiStatus === "generating"}
-              className="relative font-syne font-semibold text-sm tracking-wide bg-[#4FD1C5] text-black rounded-lg px-8 py-3.5 transition hover:opacity-90 hover:-translate-y-px disabled:opacity-60 disabled:cursor-wait cursor-pointer w-full"
+              className="font-syne font-semibold text-sm tracking-wide border border-teal text-teal rounded-lg px-6 py-3 transition hover:bg-teal hover:text-black disabled:opacity-60 disabled:cursor-wait cursor-pointer w-full"
             >
               {aiStatus === "generating" ? (
                 <span className="flex items-center justify-center gap-3">
-                  <span className="inline-block w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                  <span className="inline-block w-4 h-4 border-2 border-teal/30 border-t-teal rounded-full animate-spin" />
                   Generating…
                 </span>
               ) : (
@@ -173,9 +275,19 @@ export default function DashboardPage() {
           <BrandingResult
             storeName={storeName}
             branding={branding}
-            onReset={handleReset}
+            onReset={handleBrandingReset}
           />
         )}
+
+        {/* ── Disconnect store ── */}
+        <div className="mt-8 pt-6 border-t border-zinc-800">
+          <button
+            onClick={handleLogout}
+            className="text-sm text-white/25 hover:text-red-400 transition cursor-pointer font-mono"
+          >
+            Disconnect store & log out
+          </button>
+        </div>
       </main>
     </div>
   );

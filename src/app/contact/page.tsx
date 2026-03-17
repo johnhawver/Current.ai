@@ -36,7 +36,7 @@ export default function ContactPage() {
                 id="contact-email"
                 type="email"
                 required
-                placeholder="you@store.com"
+                placeholder="you@yourbrand.com"
               />
             </div>
             <div className="form-group">
@@ -54,9 +54,17 @@ export default function ContactPage() {
             </button>
           </form>
         ) : (
-          <p className="success-message">
-            Thanks for reaching out. We&apos;ll get back to you soon.
-          </p>
+          <div className="text-center py-8">
+            <p className="success-message mb-6">
+              Thanks for reaching out. We&apos;ll get back to you soon.
+            </p>
+            <Link
+              href="/"
+              className="font-syne font-semibold text-sm text-teal no-underline hover:underline"
+            >
+              ← Back to home
+            </Link>
+          </div>
         )}
       </main>
     </div>

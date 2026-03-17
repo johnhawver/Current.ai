@@ -3,8 +3,12 @@
 import Link from "next/link";
 import RadarBackground from "@/components/RadarBackground";
 import { useFadeIn } from "@/hooks/useFadeIn";
+import { useStore } from "@/hooks/useStore";
 
 export default function Home() {
+  const { isSignedIn, store, loading } = useStore();
+  const hasStore = loading ? null : !!(isSignedIn && store) || localStorage.getItem("store") !== null;
+
   const featuresRef = useFadeIn<HTMLElement>();
   const logoCloudRef = useFadeIn<HTMLDivElement>();
   const dashMockupRef = useFadeIn<HTMLDivElement>();
@@ -43,10 +47,10 @@ export default function Home() {
         {/* CTA row */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
           <Link
-            href="/signup"
-            className="font-syne font-semibold text-sm tracking-wide bg-teal text-black rounded-lg px-8 py-3.5 no-underline transition hover:opacity-90 hover:-translate-y-px"
+            href={hasStore ? "/dashboard" : "/connect"}
+            className="font-syne font-semibold text-sm tracking-wide bg-teal text-black rounded-lg px-8 py-3.5 no-underline transition hover:opacity-90 hover:-translate-y-px min-w-[180px] text-center"
           >
-            Connect Your Store
+            {hasStore === null ? "\u00A0" : hasStore ? "Go to Dashboard" : "Connect Your Store"}
           </Link>
           <a
             href="#features"
@@ -448,7 +452,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Link href="/signup?plan=starter" className="block text-center font-syne font-semibold text-sm text-teal border border-teal rounded-lg py-3 no-underline transition hover:bg-teal hover:text-black">
+              <Link href="/connect?plan=starter" className="block text-center font-syne font-semibold text-sm text-teal border border-teal rounded-lg py-3 no-underline transition hover:bg-teal hover:text-black">
                 Start Free
               </Link>
             </div>
@@ -469,7 +473,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Link href="/signup?plan=growth" className="block text-center font-syne font-semibold text-sm bg-teal text-black rounded-lg py-3 no-underline transition hover:opacity-90">
+              <Link href="/connect?plan=growth" className="block text-center font-syne font-semibold text-sm bg-teal text-black rounded-lg py-3 no-underline transition hover:opacity-90">
                 Start Free
               </Link>
             </div>
@@ -527,10 +531,10 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/signup"
-              className="font-syne font-semibold text-sm bg-teal text-black rounded-lg px-8 py-3.5 no-underline transition hover:opacity-90 hover:-translate-y-px"
+              href={hasStore ? "/dashboard" : "/connect"}
+              className="font-syne font-semibold text-sm bg-teal text-black rounded-lg px-8 py-3.5 no-underline transition hover:opacity-90 hover:-translate-y-px min-w-[180px] text-center"
             >
-              Connect Your Store
+              {hasStore === null ? "\u00A0" : hasStore ? "Go to Dashboard" : "Connect Your Store"}
             </Link>
             <Link
               href="/contact"

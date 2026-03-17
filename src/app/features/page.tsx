@@ -83,10 +83,10 @@ export default function FeaturesPage() {
 
           <div className="text-center mt-16">
             <Link
-              href="/signup"
+              href="/connect"
               className="font-syne font-semibold text-sm bg-teal text-black rounded-lg px-8 py-3.5 no-underline transition hover:opacity-90 hover:-translate-y-px inline-block"
             >
-              Start Free Trial
+              Connect Your Store
             </Link>
           </div>
         </div>
